@@ -1,21 +1,19 @@
 databases:
-  - name: sr_admission_hub
-    databaseName: sr_admission_hub
-    user: postgres
-    plan: free
+  - name: postgres
+    ipAllowList: []
 
 services:
   - type: web
-    name: sr_admission_hub
-    runtime: ruby
-    plan: free
+    name: rails
+    env: ruby
+    plan: starter
     buildCommand: "./bin/render-build.sh"
-    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
-    startCommand: "bundle exec rails server"
+    startCommand: bundle exec rails s
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: sr_admission_hub
+          name: postgres
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
+
